@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas Surprise</title>
+    <style>
+        :root {
+            --primary-pink: #ff4d6d;
+            --soft-bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e0f2f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .step { display: none; animation: fadeIn 0.5s; }
+        .active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Step 1: Gift */
+        .gift-box { font-size: 80px; cursor: pointer; transition: transform 0.3s; }
+        .gift-box:hover { transform: scale(1.1); }
+        .tap-me { color: var(--primary-pink); font-weight: bold; margin-bottom: 10px; }
+
+        /* Step 3: Polaroids */
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px; }
+        .card {
+            background: #fff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .card.hidden-text { color: transparent; background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%23ff4d6d"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center; }
+        .card.revealed { color: #333; background-image: none; }
+
+        /* Step 4: Final Letter */
+        .letter { text-align: left; font-style: italic; font-size: 14px; line-height: 1.6; }
+        
+        button {
+            background: var(--primary-pink);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="step1" class="step active">
+        <h2>For someone special</h2>
+        <div class="tap-me">Tap me!</div>
+        <div class="gift-box" onclick="nextStep(2)">🎁</div>
+    </div>
+
+    <div id="step2" class="step">
+        <div style="font-size: 50px;">☃️</div>
+        <h3>This Christmas, something special for you</h3>
+        <button onclick="nextStep(3)">Open it</button>
+    </div>
+
+    <div id="step3" class="step">
+        <h3>Just for you</h3>
+        <p>I don't need a gift, because...</p>
+        <div class="grid">
+            <div class="card hidden-text" onclick="reveal(this)">You</div>
+            <div class="card hidden-text" onclick="reveal(this)">are</div>
+            <div class="card hidden-text" onclick="reveal(this)">my</div>
+            <div class="card hidden-text" onclick="reveal(this)">favorite!</div>
+        </div>
+        <button id="nextBtn" style="display:none;" onclick="nextStep(4)">Continue</button>
+    </div>
+
+    <div id="step4" class="step">
+        <h3>Merry Christmas, Cutiepie!</h3>
+        <div class="letter">
+            This Christmas, I just want you to know how special you are to me. 
+            You aren't just a part of my life, you are the reason behind my smiles.
+            I promise to always try my best to be there for you. <br><br>
+            <b>Thank you for being you. ❤️</b>
+        </div>
+    </div>
+</div>
+
+<script>
+    let revealedCount = 0;
+
+    function nextStep(stepNum) {
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        document.getElementById('step' + stepNum).classList.add('active');
+    }
+
+    function reveal(el) {
+        if (!el.classList.contains('revealed')) {
+            el.classList.remove('hidden-text');
+            el.classList.add('revealed');
+            revealedCount++;
+            if (revealedCount === 4) {
+                document.getElementById('nextBtn').style.display = 'inline-block';
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
